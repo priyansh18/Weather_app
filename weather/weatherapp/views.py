@@ -1,12 +1,19 @@
 import requests
 from django.shortcuts import render
 from .models import City
+from .forms import cityForm
 
 # Create your views here.
 
 
 def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=0daeff595e03682a91be65b4352751d8'
+
+    if(request.method == 'POST'):
+        form = cityForm(request.POST)
+        form.save()
+
+    form = cityForm()
 
     cities = City.objects.all()
 
@@ -25,6 +32,6 @@ def index(request):
 
         weather_data.append(city_weather)
 
-    context = {'weather_data': weather_data}
+    context = {'weather_data': weather_data, 'form': form}
 
     return render(request, 'weatherapp/weather.html', context)
