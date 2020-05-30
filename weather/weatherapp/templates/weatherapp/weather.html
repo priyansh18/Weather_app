@@ -38,7 +38,9 @@
                 </div>
               </div>
               {% if message %}
-              <div class="notification {{message_class}}">{{message}}</div>
+              <div class="notification {{message_class}}">
+                {{message}}
+              </div>
               {% endif %}
             </form>
           </div>
@@ -88,3 +90,8 @@
     <footer class="footer"></footer>
   </body>
 </html>
+<script>
+  setTimeout(function () {
+    document.getElementsByClassName("notification")[0].style.display = "none";
+  }, 2000);
+</script>
