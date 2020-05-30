@@ -1,24 +1,30 @@
 import requests
 from django.shortcuts import render
+from .models import City
 
 # Create your views here.
 
 
 def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=0daeff595e03682a91be65b4352751d8'
-    city = 'Las Vegas'
 
-    r = requests.get(url.format(city)).json()
+    cities = City.objects.all()
 
-    city_weather = {
-        'city': city,
-        'temperature': r['main']['temp'],
-        'description': r['weather'][0]['description'],
-        'icon': r['weather'][0]['icon'],
-    }
+    weather_data = []
 
-    print(city_weather)
+    for city in cities:
 
-    context = {'city_weather': city_weather}
+        r = requests.get(url.format(city)).json()
+
+        city_weather = {
+            'city': city.name,
+            'temperature': r['main']['temp'],
+            'description': r['weather'][0]['description'],
+            'icon': r['weather'][0]['icon'],
+        }
+
+        weather_data.append(city_weather)
+
+    context = {'weather_data': weather_data}
 
     return render(request, 'weatherapp/weather.html', context)
