@@ -24,9 +24,9 @@ def index(request):
                 if r['cod'] == 200:
                     form.save()
                 else:
-                    err_msg = 'City does not exist'
+                    err_msg = 'City does not Exist'
             else:
-                err_msg = "City Already in Database"
+                err_msg = "City Already Exists in Database"
 
         if err_msg:
             message = err_msg
